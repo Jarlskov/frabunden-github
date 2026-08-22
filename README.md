@@ -10,8 +10,8 @@ This follows the same migration approach used for
 ## Migration checklist
 
 - [x] Audit WordPress content model & security (`docs/wp-content-schema.md`)
-- [ ] Extraction tooling (`scripts/extract_wp_content.py`)
-- [ ] Jekyll skeleton + CI/CD
+- [x] Extraction tooling (`scripts/extract_wp_content.py`)
+- [x] Jekyll skeleton + CI/CD
 - [ ] First extraction run + media assets
 - [ ] Layouts & design
 - [ ] Iterative refinement
