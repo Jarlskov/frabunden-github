@@ -54,6 +54,7 @@ jobs:
         with:
           args: --offline --no-progress --root-dir "${{ github.workspace }}/_link_check" './_link_check/**/*.html'
           fail: true
+          failIfEmpty: false
 
       - name: Upload artifact
         if: github.event_name == 'push'
