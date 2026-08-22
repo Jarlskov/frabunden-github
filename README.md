@@ -14,6 +14,6 @@ This follows the same migration approach used for
 - [x] Jekyll skeleton + CI/CD
 - [x] First extraction run + media assets
 - [x] Layouts & design (author bio pages excluded — no real data to render)
-- [ ] Iterative refinement
+- [x] Iterative refinement (spam sweep, media dedup, external link check — all clean)
 - [ ] Custom domain cutover
 - [ ] WordPress decommission
