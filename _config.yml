@@ -3,9 +3,6 @@ description: Mad, alkohol og andet godt, lavet fra bunden
 url: "https://frabunden.dk"
 markdown: kramdown
 
-plugins:
-  - jekyll-feed
-
 exclude:
   - docs
   - scripts

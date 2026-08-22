@@ -1,0 +1,77 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ site.lang | default: 'da' }}">
+  <generator uri="https://jekyllrb.com/" version="{{ jekyll.version }}">Jekyll</generator>
+  <link href="{{ '/feed.xml' | absolute_url }}" rel="self" type="application/atom+xml" />
+  <link href="{{ '/' | absolute_url }}" rel="alternate" type="text/html" hreflang="{{ site.lang | default: 'da' }}" />
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <id>{{ '/' | absolute_url | xml_escape }}</id>
+  <title type="html">{{ site.title | smartify | xml_escape }}</title>
+  {% if site.description %}<subtitle>{{ site.description | xml_escape }}</subtitle>{% endif %}
+
+  {% assign posts = site.posts | sort: "date" | reverse %}
+  {% for post in posts limit: 10 %}
+    {% assign post_title = post.title | smartify | strip_html | normalize_whitespace | xml_escape %}
+    <entry>
+      <title type="html">{{ post_title }}</title>
+      <link href="{{ post.url | absolute_url }}" rel="alternate" type="text/html" title="{{ post_title }}" />
+      <published>{{ post.date | date_to_xmlschema }}</published>
+      <updated>{{ post.date | date_to_xmlschema }}</updated>
+      <id>{{ post.id | absolute_url | xml_escape }}</id>
+
+      {%- comment -%}
+        post.content embeds images via root-relative "/assets/..." URLs
+        (correct for on-site viewing under any baseurl), but a feed is
+        read outside the site's own domain context, where a relative
+        path resolves against the *reader's* origin instead — rewrite
+        to absolute before embedding. Liquid's `replace` only takes
+        plain string arguments, so the replacement has to be built as
+        its own variable first rather than chained inline.
+      {%- endcomment -%}
+      {% assign asset_replacement = '="' | append: site.url | append: '/assets/' %}
+      {% assign feed_body = post.content | replace: '="/assets/', asset_replacement %}
+
+      <content type="html" xml:base="{{ post.url | absolute_url | xml_escape }}"><![CDATA[
+        {{ feed_body | strip }}
+        {% if post.recipe_ingredients %}
+          {% if post.recipe_prep_time or post.recipe_cook_time or post.recipe_total_time or post.recipe_servings %}
+            <p>
+              {% if post.recipe_prep_time %}Forberedelse: {{ post.recipe_prep_time }} min. {% endif %}
+              {% if post.recipe_cook_time %}Tilberedning: {{ post.recipe_cook_time }} min. {% endif %}
+              {% if post.recipe_total_time %}I alt: {{ post.recipe_total_time }} min. {% endif %}
+              {% if post.recipe_servings %}Portioner: {{ post.recipe_servings }}{% if post.recipe_servings_unit %} {{ post.recipe_servings_unit }}{% endif %}.{% endif %}
+            </p>
+          {% endif %}
+          <h2>Ingredienser</h2>
+          {% for group in post.recipe_ingredients %}
+            {% if group.name != "" %}<p><strong>{{ group.name }}</strong></p>{% endif %}
+            <ul>
+              {% for item in group.items %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+          {% endfor %}
+          <h2>Fremgangsmåde</h2>
+          {% for group in post.recipe_instructions %}
+            {% if group.name != "" %}<p><strong>{{ group.name }}</strong></p>{% endif %}
+            <ol>
+              {% for item in group.items %}
+                <li>{{ item.text | markdownify | strip_newlines }}{% if item.image %}<br /><img src="{{ item.image | absolute_url }}" alt="" />{% endif %}</li>
+              {% endfor %}
+            </ol>
+          {% endfor %}
+        {% endif %}
+      ]]></content>
+
+      <author><name>{{ post.author | default: site.title }}</name></author>
+
+      {% for category in post.categories %}<category term="{{ category | xml_escape }}" />{% endfor %}
+
+      {% if post.thumbnail %}
+        {% assign post_image = post.thumbnail | absolute_url %}
+        <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="{{ post_image | xml_escape }}" />
+        <media:content medium="image" url="{{ post_image | xml_escape }}" xmlns:media="http://search.yahoo.com/mrss/" />
+      {% endif %}
+    </entry>
+  {% endfor %}
+</feed>
