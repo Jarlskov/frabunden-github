@@ -15,5 +15,5 @@ This follows the same migration approach used for
 - [x] First extraction run + media assets
 - [x] Layouts & design (author bio pages excluded — no real data to render)
 - [x] Iterative refinement (spam sweep, media dedup, external link check — all clean)
-- [ ] Custom domain cutover
+- [x] Custom domain cutover
 - [ ] WordPress decommission
