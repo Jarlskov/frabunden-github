@@ -97,11 +97,15 @@ domain is registered in GSC — so cloaked spam could be actively damaging
 frabunden.dk's real search rankings/reputation right now, independent of the
 migration timeline.
 
-**Recommendation:** treat this as more urgent than the general "decommission
-at the end of migration" plan (Phase 8) — flagged back to the user for a
-decision on whether to take immediate mitigating action (e.g. removing the
-`wp-file-manager-pro` directory and disabling PHP execution under
-`wp-content/uploads/`) ahead of completing the full Jekyll migration.
+**Update — remediated 2026-08-22:** the site owner removed the injected
+spam posts, deleted the `wp-file-manager-pro` directory, and removed a
+malicious injected `include`/`require` that had been added to the active
+theme's (`sabroso`) `functions.php`. Re-verified post-cleanup: the live site
+now renders only legitimate content matching the categories/nav documented
+above, the `wp-file-manager-pro` directory no longer exists on the host, and
+`functions.php` contains only its original, legitimate template includes.
+Full WordPress decommission (Phase 8) is still the end goal, but the
+immediate active-exploitation risk is resolved.
 
 ## Media
 
