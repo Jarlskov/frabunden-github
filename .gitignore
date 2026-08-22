@@ -1,0 +1,16 @@
+# Jekyll build artifacts
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+
+# Raw WordPress DB dumps / exports must never be committed.
+# They can contain PII (emails, hashed passwords, IPs) even when we
+# only ever *query* a whitelisted set of content tables locally.
+# Keep dumps and uploads pulls in scratch space outside this repo.
+*.sql
+*.sql.gz
+*.wxr
+wp-export/
+wp-dump/
