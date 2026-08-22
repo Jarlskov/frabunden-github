@@ -35,4 +35,4 @@ recipe_instructions:
       - "Anret i dybe tallerkner, og drys parmesaonost over."
 ---
 
-
+Pasta med bacon og broccolisauce er simpel, som pastaretter helst skal være. Det er desuden en god måde at spise en masse broccoli hvis man, som jeg, er typen der ikke altid får spist så meget broccoli som man nok burde.

@@ -41,3 +41,7 @@ Frikadeller er en klassisk ret der findes i forskellige afskygninger i mange nat
 I Danmark kom retten ud til den bredere befolkning i slutningen af 1800-tallet, hvor de første kødhakkemaskiner begyndte at blive udbredt i de Danske køkkener, så man ikke længere skulle hakke sit kød med en kniv.
 Typen af kød der bliver brugtsvinger meget, men vil ofte være svine-, okse- eller kalvekød, men til brug til danske frikadeller vil den oftest bestå af en bladning af svine- og kalvekød.
 Basen til en fars behøver dog ikke nødvendigvis bestå af kød, så jeg har været på udkig efter et grønt alternativ. Jeg har eksperimenteret lidt med revet squash, hvilket har fungeret ret godt.
+
+Squashfrikadeller er et lækkert kødfrit alternativ til den klassiske svine-/kalvefarsfrikadelle, og samtidig en god måde at få mere groft grønt ind i den daglige kost.
+
+Opskriften er inspireret af [Madfilosofie](https://madfilosofie.dk/squashfrikadeller-og-fyldte-aubergineruller/) tilpasset de lokale smagsløg her på adressen, samt hvad vi normalt har tilgængeligt i køkkenet.

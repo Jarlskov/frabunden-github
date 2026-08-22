@@ -39,3 +39,5 @@ recipe_instructions:
 ---
 
 Jeg er personligt ret glad for både thaimad, og suppe, så thaisuppe er jo aldrig af vejen. Det bliver jo bestemt heller ikke værre når en ret udover at smage godt, kan fylde stedet med en fantastisk duft, allerede mens den tilberedes.
+
+Tom Kha Gai er en kokosmælkesuppe med kylling i. Der findes rigtig mange forskellige forslag til opskrifter rundt omkring på nettet, men sådan her plejer jeg at lave hvad der pt er min yndlingssuppe.

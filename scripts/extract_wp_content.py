@@ -204,14 +204,21 @@ def html_to_clean_markdown(raw_html: str, referenced_files: set[str]) -> str:
         comment.extract()
 
     # WP Recipe Maker's dynamic block saves a fully-rendered static fallback
-    # card (its own heading/ingredient-list/instruction-list markup, styled
-    # with wprm-* classes) inline in post_content for contexts where the
-    # plugin's JS/shortcode can't render it. The recipe layout renders
-    # ingredients/instructions itself from structured front matter (see
-    # build_ingredient_groups/build_instruction_groups), so this fallback
-    # would otherwise duplicate it — drop it entirely.
+    # card (heading/ingredient-list/instruction-list, styled with wprm-*
+    # classes) inline in post_content for contexts where the plugin's JS
+    # can't render it. Most of that duplicates the structured front matter
+    # (see build_ingredient_groups/build_instruction_groups) and gets
+    # dropped — but its "summary" paragraph is genuine authored text with
+    # no other home (not stored anywhere in postmeta), and for a recipe-only
+    # post with no separate narrative it's the post's *entire* body. Keep
+    # just that piece, in place of the rest of the card.
     for div in soup.find_all("div", class_="wprm-fallback-recipe"):
-        div.decompose()
+        summary = div.find(class_="wprm-fallback-recipe-summary")
+        if summary:
+            summary.extract()
+            div.replace_with(summary)
+        else:
+            div.decompose()
 
     for tag in soup.find_all(["script", "style"]):
         tag.decompose()

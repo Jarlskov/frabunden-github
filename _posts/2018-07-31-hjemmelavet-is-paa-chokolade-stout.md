@@ -34,4 +34,4 @@ recipe_instructions:
       - "Hvis du har en plade chokolade af god kvalitet kan den hakkes fint og hældes i ismassen når den begynder at tykne."
 ---
 
-
+Opskriften her er inspireret af Svanekes Choko Stout, en chokoladestout med en alt for kraftig chokoladesmag til at jeg brød mig om den. Når den sødes og laves til is kommer den meget kraftige chokoladesmag dog meget mere til sin ret.

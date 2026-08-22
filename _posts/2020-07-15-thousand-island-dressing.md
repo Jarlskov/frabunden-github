@@ -42,3 +42,5 @@ Egentlige opskrifter begynder at dukke op i [amerikanske kogebøger i 1915](http
 Thousand Island dressing har sit navn fra [the Thousand Islands](https://visit1000islands.com/), en øgruppe i Saint Lawrence floden på grænsen mellem New York og Canada. Hvorfor dressingen opstod og hvorfor den blev populær i netop det område står hen i det uvisse, da alle referencer bygger på mundtlige overleveringer, og nærmest hver landsby i området har sin egen udgave af historien.
 
 Som altid med populære retter findes der et hav af opskrifter og forskellige tilgange til en thousand island dressing. Opskriften som jeg vil præsentere her tager udgangspunkt i en peberfrugt der bliver stegt hårdt på en pande, hvilket tilfører dressingen en let brændt smag der giver et godt modspil til den ellers søde ret, og som står godt til de ferske rejer og den sprøde friske salat.
+
+Thousand island dressingen er en lækker sødlig dressing, der oftest serveres til skalddyr. Den er især kendt fra 80'er klassikeren rejecocktail.

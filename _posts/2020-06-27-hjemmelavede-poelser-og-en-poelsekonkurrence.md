@@ -43,6 +43,8 @@ Til blindsmagningen skulle hver pølse bedømmes inden for følgende kategorier:
 
 Det kan afsløres at det ikke er så ligetil at lave pølser som nogle i selskabet havde regnet med, og niveauet for vores frembringelser var ret svingende.
 
+I alt dystede 5 forskellige pølser om æren, den ene mere kreativt udtænkt end den anden. Fælles for dem alle var grundfarsen. Herudover freestylede man selv ingredienser. Det kan afsløres at vinderpølsen var rosmarinpølsen.
+
 - ![]({{ '/assets/uploads/2020/06/IMG_9743.jpg' | relative_url }})
 - ![]({{ '/assets/uploads/2020/06/IMG_9748.jpg' | relative_url }})
 - ![]({{ '/assets/uploads/2020/06/IMG_9771-1.jpg' | relative_url }})
