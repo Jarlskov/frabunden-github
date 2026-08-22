@@ -12,7 +12,7 @@ This follows the same migration approach used for
 - [x] Audit WordPress content model & security (`docs/wp-content-schema.md`)
 - [x] Extraction tooling (`scripts/extract_wp_content.py`)
 - [x] Jekyll skeleton + CI/CD
-- [ ] First extraction run + media assets
+- [x] First extraction run + media assets
 - [ ] Layouts & design
 - [ ] Iterative refinement
 - [ ] Custom domain cutover
