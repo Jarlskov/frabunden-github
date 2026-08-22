@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<article class="post-article">
+<div class="post-header-banner">
   <div class="post-header">
     <div class="post-kicker">
       <span class="category">{{ page.categories | join: " · " }}</span>
@@ -11,7 +11,9 @@ layout: default
     <h1 class="post-title">{{ page.title }}</h1>
     {% if page.author %}<div class="post-byline">Af {{ page.author }}</div>{% endif %}
   </div>
+</div>
 
+<article class="post-article">
   {% if page.thumbnail %}
   <div class="post-hero">
     <img src="{{ page.thumbnail | relative_url }}" alt="{{ page.title }}">

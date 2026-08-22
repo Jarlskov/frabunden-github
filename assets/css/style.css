@@ -187,6 +187,8 @@ ul, ol {
 .post-list {
   display: flex;
   flex-direction: column;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .post-list-item {
@@ -341,16 +343,22 @@ ul, ol {
 
 /* ---- article ---- */
 
-.post-article {
-  padding: 44px 24px 64px;
+.post-header-banner {
+  background: var(--bg-footer);
+  border-bottom: 1px solid var(--border-green);
+  padding: 40px 24px 32px;
 }
 
 .post-header {
   max-width: var(--content-max);
-  margin: 0 auto 28px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.post-article {
+  padding: 32px 24px 64px;
 }
 
 .post-kicker {
