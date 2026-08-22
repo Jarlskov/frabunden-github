@@ -1,0 +1,65 @@
+---
+layout: default
+---
+<article class="post-article">
+  <div class="post-header">
+    <div class="post-kicker">
+      <span class="category">{{ page.categories | join: " · " }}</span>
+      <span class="dot"></span>
+      <span>{{ page.date | date: "%-d." }} {% assign m = page.date | date: "%m" %}{{ site.data.da_months[m] }} {{ page.date | date: "%Y" }}</span>
+    </div>
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.author %}<div class="post-byline">Af {{ page.author }}</div>{% endif %}
+  </div>
+
+  {% if page.thumbnail %}
+  <div class="post-hero">
+    <img src="{{ page.thumbnail | relative_url }}" alt="{{ page.title }}">
+  </div>
+  {% endif %}
+
+  <div class="post-layout{% if page.recipe_ingredients %} has-recipe{% endif %}">
+    <div class="post-intro">
+      {{ content }}
+    </div>
+
+    {% if page.recipe_ingredients %}
+    <aside class="recipe-card">
+      {% if page.recipe_prep_time or page.recipe_cook_time or page.recipe_total_time or page.recipe_servings %}
+      <div class="recipe-stats">
+        {% if page.recipe_prep_time %}<div><span class="label">Forb.</span><span class="value">{{ page.recipe_prep_time }} min</span></div>{% endif %}
+        {% if page.recipe_cook_time %}<div><span class="label">Tilb.</span><span class="value">{{ page.recipe_cook_time }} min</span></div>{% endif %}
+        {% if page.recipe_total_time %}<div><span class="label">I alt</span><span class="value">{{ page.recipe_total_time }} min</span></div>{% endif %}
+        {% if page.recipe_servings %}<div><span class="label">Portioner</span><span class="value">{{ page.recipe_servings }}{% if page.recipe_servings_unit %} {{ page.recipe_servings_unit }}{% endif %}</span></div>{% endif %}
+      </div>
+      {% endif %}
+
+      <div class="recipe-section-label">Ingredienser</div>
+      {% for group in page.recipe_ingredients %}
+        {% if group.name != "" %}<div class="recipe-group-name">{{ group.name }}</div>{% endif %}
+        <ul class="ingredient-list">
+          {% for item in group.items %}
+            <li><label><input type="checkbox"><span>{{ item }}</span></label></li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+
+      {% if page.recipe_equipment %}
+      <div class="recipe-equipment">Udstyr: {{ page.recipe_equipment | join: ", " }}</div>
+      {% endif %}
+    </aside>
+
+    <div class="recipe-instructions">
+      <h2>Fremgangsmåde</h2>
+      {% for group in page.recipe_instructions %}
+        {% if group.name != "" %}<div class="recipe-group-name">{{ group.name }}</div>{% endif %}
+        <ol class="instruction-list">
+          {% for item in group.items %}
+            <li><div class="step-text">{{ item.text | markdownify }}{% if item.image %}<img src="{{ item.image | relative_url }}" alt="">{% endif %}</div></li>
+          {% endfor %}
+        </ol>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</article>

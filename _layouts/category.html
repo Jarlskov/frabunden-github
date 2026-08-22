@@ -1,0 +1,52 @@
+---
+layout: default
+---
+{% assign posts = site.categories[page.category] | sort: "date" | reverse %}
+
+<div class="category-banner">
+  <div class="wrap">
+    <div class="kicker">Kategori</div>
+    <h1>{{ page.category }}</h1>
+    <p class="description">{{ posts | size }} opskrift{% if posts.size != 1 %}er{% endif %}.</p>
+
+    {% assign subcats = "" | split: "" %}
+    {% for post in posts %}
+      {% for cat in post.categories %}
+        {% unless cat == page.category %}
+          {% assign subcats = subcats | push: cat %}
+        {% endunless %}
+      {% endfor %}
+    {% endfor %}
+    {% assign subcats = subcats | uniq | sort %}
+    {% if subcats.size > 0 %}
+      <div class="pill-row">
+        <span class="pill active">Alle</span>
+        {% for sub in subcats %}
+          <span class="pill">{{ sub }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="post-list">
+  {% for post in posts %}
+    <div class="post-list-item">
+      <div class="post-list-thumb">
+        {% if post.thumbnail %}
+          <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
+        {% else %}
+          <span class="placeholder">{{ site.title }}</span>
+        {% endif %}
+      </div>
+      <div class="post-list-body">
+        <div class="post-list-kicker">
+          <span>{{ post.categories | join: " · " }} · {{ post.date | date: "%-d." }} {% assign m = post.date | date: "%m" %}{{ site.data.da_months[m] }} {{ post.date | date: "%Y" }}</span>
+        </div>
+        <a class="post-list-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {% assign excerpt = post.content | strip_html | strip %}
+        {% if excerpt != "" %}<div class="post-list-excerpt">{{ excerpt | truncate: 160 }}</div>{% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>

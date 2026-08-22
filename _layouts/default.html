@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.title }}</title>
+  {% if page.description %}<meta name="description" content="{{ page.description }}">{% else %}<meta name="description" content="{{ site.description }}">{% endif %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+</head>
+<body>
+
+{% assign nav_categories = "Hovedretter,Desserter,Tilbehør,Alkohol" | split: "," %}
+{% assign nav_slugs = "hovedretter,desserter,tilbehoer,alkohol" | split: "," %}
+
+{% if page.layout == "home" %}
+<header class="home-hero">
+  <div class="wrap">
+    <div>
+      <div class="logo"><a href="{{ '/' | relative_url }}">{{ site.title }}</a></div>
+      <div class="tagline">{{ site.description }}</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <nav class="site-nav">
+      {% for cat in nav_categories %}
+        <a href="{{ '/' | append: nav_slugs[forloop.index0] | append: '/' | relative_url }}">{{ cat }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>
+{% else %}
+<header class="site-header">
+  <div class="wrap">
+    <div class="logo"><a href="{{ '/' | relative_url }}">{{ site.title }}</a></div>
+    <nav class="site-nav">
+      {% for cat in nav_categories %}
+        <a href="{{ '/' | append: nav_slugs[forloop.index0] | append: '/' | relative_url }}"{% if page.title == cat %} class="active"{% endif %}>{{ cat }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>
+{% endif %}
+
+<main>
+  {{ content }}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-brand">
+      <div class="logo">{{ site.title }}</div>
+      {% assign oldest_post = site.posts | sort: "date" | first %}
+      <p>{{ site.description }} — siden {{ oldest_post.date | date: "%Y" }}.</p>
+    </div>
+    <div class="footer-columns">
+      <div>
+        <h3>Kategorier</h3>
+        {% for cat in nav_categories %}
+          <a href="{{ '/' | append: nav_slugs[forloop.index0] | append: '/' | relative_url }}">{{ cat }}</a>
+        {% endfor %}
+      </div>
+      <div>
+        <h3>Skribenter</h3>
+        {% assign authors = site.posts | map: "author" | uniq %}
+        {% for author in authors %}
+          <span>{{ author }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
