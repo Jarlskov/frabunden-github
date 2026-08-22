@@ -5,6 +5,7 @@ permalink: "/squashfrikadeller/"
 thumbnail: "/assets/uploads/2017/12/20171206_190535-1.jpg"
 categories:
   - "Hovedretter"
+author: "Jarlskov"
 recipe_prep_time: 25
 recipe_cook_time: 20
 recipe_total_time: 45
@@ -26,15 +27,22 @@ recipe_ingredients:
 recipe_instructions:
   - name: ""
     items:
-      - "Squash rives og drænes for vand, f.eks. ved at vride det i et viskestykke.\n\n![]({{ '/assets/uploads/2017/12/20171206_120909.jpg' | relative_url }})"
-      - "Løg skæres fint. Persille hakkes fint."
-      - "Squash, løg, sennep, æg, persille, salt og peber blandes i en skål, hvidløg presses i.\n\n![]({{ '/assets/uploads/2017/12/20171206_124442.jpg' | relative_url }})"
-      - "Det hele blandes sammen.\n\n![]({{ '/assets/uploads/2017/12/20171206_124612.jpg' | relative_url }})"
-      - "Mel, havregryn og rasp blandes i. Mængden afhænger af hvor meget vand du har fået drænet ud dine squash, samt hvor store dine æg var, så prøv dig lidt frem. Den færdige fars skal være fast, men ikke tør.\n\n![]({{ '/assets/uploads/2017/12/20171206_124748.jpg' | relative_url }})"
-      - "Smelt smør på en varm pande. Lad det boble af."
-      - "Form små boller af farsen med en spiseske og en (vasket) hånd.\n\n![]({{ '/assets/uploads/2017/12/20171206_190257-1.jpg' | relative_url }})"
-      - "Kom farsbollerne på panden, og steg 5-8 min på hver side. Stegetiden afhænger af størrelsen, så igen, prøv dig frem.\n\n![]({{ '/assets/uploads/2017/12/20171206_190535-1.jpg' | relative_url }})"
-      - "Spis.\n\n![]({{ '/assets/uploads/2017/12/20171206_193511.jpg' | relative_url }})"
+      - text: "Squash rives og drænes for vand, f.eks. ved at vride det i et viskestykke."
+        image: "/assets/uploads/2017/12/20171206_120909.jpg"
+      - text: "Løg skæres fint. Persille hakkes fint."
+      - text: "Squash, løg, sennep, æg, persille, salt og peber blandes i en skål, hvidløg presses i."
+        image: "/assets/uploads/2017/12/20171206_124442.jpg"
+      - text: "Det hele blandes sammen."
+        image: "/assets/uploads/2017/12/20171206_124612.jpg"
+      - text: "Mel, havregryn og rasp blandes i. Mængden afhænger af hvor meget vand du har fået drænet ud dine squash, samt hvor store dine æg var, så prøv dig lidt frem. Den færdige fars skal være fast, men ikke tør."
+        image: "/assets/uploads/2017/12/20171206_124748.jpg"
+      - text: "Smelt smør på en varm pande. Lad det boble af."
+      - text: "Form små boller af farsen med en spiseske og en (vasket) hånd."
+        image: "/assets/uploads/2017/12/20171206_190257-1.jpg"
+      - text: "Kom farsbollerne på panden, og steg 5-8 min på hver side. Stegetiden afhænger af størrelsen, så igen, prøv dig frem."
+        image: "/assets/uploads/2017/12/20171206_190535-1.jpg"
+      - text: "Spis."
+        image: "/assets/uploads/2017/12/20171206_193511.jpg"
 ---
 
 Frikadeller er en klassisk ret der findes i forskellige afskygninger i mange nationale køkkener verden over.  Som udgangspunkt er en frikadelle fars stegt på panden.

@@ -6,6 +6,7 @@ thumbnail: "/assets/uploads/2020/07/8-IMG_9870.jpg"
 categories:
   - "Dressing"
   - "Tilbehør"
+author: "Jarlskov"
 recipe_prep_time: 5
 recipe_cook_time: 15
 recipe_total_time: 20
@@ -26,11 +27,12 @@ recipe_ingredients:
 recipe_instructions:
   - name: ""
     items:
-      - "Peberfrugt skæres i store stykker."
-      - "Stykkerne af peberfrugt steges på en pande. De skal være godt brændt."
-      - "Tomatpuréen kommes på panden og brændes af, for at fjerne den bitre smag."
-      - "Skallen pilles af peberfrugten, og frugtkødet blendes."
-      - "Den blendede peberfrugt blandes med de øvrige ingredienser og smages til med citronsaft, chili og salt.\n\n![]({{ '/assets/uploads/2020/07/DSC01931.jpg' | relative_url }})"
+      - text: "Peberfrugt skæres i store stykker."
+      - text: "Stykkerne af peberfrugt steges på en pande. De skal være godt brændt."
+      - text: "Tomatpuréen kommes på panden og brændes af, for at fjerne den bitre smag."
+      - text: "Skallen pilles af peberfrugten, og frugtkødet blendes."
+      - text: "Den blendede peberfrugt blandes med de øvrige ingredienser og smages til med citronsaft, chili og salt."
+        image: "/assets/uploads/2020/07/DSC01931.jpg"
 ---
 
 Intet siger 80'erne som den klassiske rejecocktail med thousand island dressing. Men hvor kommer denne sagnomspundne dressing egentlig fra, og hvordan har den fået sit navn? Og endnu vigtigere, hvordan laver man kan man uppe sit rejecocktail game ved at lave en ordentlig thousand island dressing til? Det vil jeg dykke lidt ned i i denne artikel.

@@ -5,6 +5,7 @@ permalink: "/tom-kha-gai-thailandsk-kokosmaelksuppe-med-kylling/"
 thumbnail: "/assets/uploads/2018/07/Billede-på-vej-orangej.jpg"
 categories:
   - "Hovedretter"
+author: "Jarlskov"
 recipe_prep_time: 15
 recipe_cook_time: 10
 recipe_total_time: 25
@@ -30,12 +31,12 @@ recipe_ingredients:
 recipe_instructions:
   - name: ""
     items:
-      - "Sauter ingefær, citrongræs, chili og hvidløg i en smule smagløs olie."
-      - "Når det begynder at dufte lækkert tilsættes kokosmælk og bouillon."
-      - "Når suppen er varm tilsættes kylling og lime, og suppen får lov at stå og simre indtil kyllingen er tilberedt."
-      - "Tilsæt tomater og kog et minuts tid. Sluk for varmen."
-      - "Nudlerne koges efter anvisning på pakken."
-      - "Suppen smages til med lime og koriander, serveres over nudler."
+      - text: "Sauter ingefær, citrongræs, chili og hvidløg i en smule smagløs olie."
+      - text: "Når det begynder at dufte lækkert tilsættes kokosmælk og bouillon."
+      - text: "Når suppen er varm tilsættes kylling og lime, og suppen får lov at stå og simre indtil kyllingen er tilberedt."
+      - text: "Tilsæt tomater og kog et minuts tid. Sluk for varmen."
+      - text: "Nudlerne koges efter anvisning på pakken."
+      - text: "Suppen smages til med lime og koriander, serveres over nudler."
 ---
 
 Jeg er personligt ret glad for både thaimad, og suppe, så thaisuppe er jo aldrig af vejen. Det bliver jo bestemt heller ikke værre når en ret udover at smage godt, kan fylde stedet med en fantastisk duft, allerede mens den tilberedes.

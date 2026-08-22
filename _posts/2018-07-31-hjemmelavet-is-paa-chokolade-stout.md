@@ -6,6 +6,7 @@ thumbnail: "/assets/uploads/2018/07/Billede-på-vej-orangej.jpg"
 categories:
   - "Desserter"
   - "Is"
+author: "Jarlskov"
 recipe_ingredients:
   - name: ""
     items:
@@ -18,20 +19,20 @@ recipe_ingredients:
 recipe_instructions:
   - name: "Ølreduktion"
     items:
-      - "Bland øl og 6 spsk sukker i en gryde."
-      - "Kog ind til lidt under halvdelen og køl af."
+      - text: "Bland øl og 6 spsk sukker i en gryde."
+      - text: "Kog ind til lidt under halvdelen og køl af."
   - name: "Ismasse"
     items:
-      - "Bland mælk og fløde i en gryde og varm langsomt op."
-      - "Mens mælkeblandingen varmes piskes æggeblommer sammen med resten af sukkeret."
-      - "Når mælkeblandingen er kogt igennem hældes den op i sukker-/æggeblandingen. Det hele piskes sammen."
-      - "Hæld tilbage i gryden og giv et sidste opkog. Pas på med varmen da mælken let brænder på."
-      - "Hæld blandingen i en skål, bland med ølreduktionen. Sæt på køl."
+      - text: "Bland mælk og fløde i en gryde og varm langsomt op."
+      - text: "Mens mælkeblandingen varmes piskes æggeblommer sammen med resten af sukkeret."
+      - text: "Når mælkeblandingen er kogt igennem hældes den op i sukker-/æggeblandingen. Det hele piskes sammen."
+      - text: "Hæld tilbage i gryden og giv et sidste opkog. Pas på med varmen da mælken let brænder på."
+      - text: "Hæld blandingen i en skål, bland med ølreduktionen. Sæt på køl."
   - name: "Is"
     items:
-      - "Når blandingen er kølet ned hældes den på ismaskine, hvis man har sådan en."
-      - "Alternativt kan den hældes i bøtter og sættes i fryseren. Tag bøtterne ud og rør dem godt igennem hver halve time. Når isen begynder at tyknes kan du nøjes med en gang i timen."
-      - "Hvis du har en plade chokolade af god kvalitet kan den hakkes fint og hældes i ismassen når den begynder at tykne."
+      - text: "Når blandingen er kølet ned hældes den på ismaskine, hvis man har sådan en."
+      - text: "Alternativt kan den hældes i bøtter og sættes i fryseren. Tag bøtterne ud og rør dem godt igennem hver halve time. Når isen begynder at tyknes kan du nøjes med en gang i timen."
+      - text: "Hvis du har en plade chokolade af god kvalitet kan den hakkes fint og hældes i ismassen når den begynder at tykne."
 ---
 
 Opskriften her er inspireret af Svanekes Choko Stout, en chokoladestout med en alt for kraftig chokoladesmag til at jeg brød mig om den. Når den sødes og laves til is kommer den meget kraftige chokoladesmag dog meget mere til sin ret.

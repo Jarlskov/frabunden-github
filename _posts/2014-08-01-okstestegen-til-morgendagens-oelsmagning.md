@@ -4,6 +4,7 @@ date: "2014-08-01"
 permalink: "/okstestegen-til-morgendagens-oelsmagning/"
 categories:
   - "Hovedretter"
+author: "Mortensen"
 ---
 
 Så blev tyndstegen klargjort til morgendagens ølsmagning. Til en ølsmagning virker det kun naturligt at marinere kødet i øl. Til det gode oksekød valgte jeg en brown ale fra Svaneke bryghus, som har en mørk med stadig "blød" smag, for ikke at dominere men kærtegne den dejlige smag af oksekødet.
