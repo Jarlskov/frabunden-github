@@ -13,7 +13,7 @@ This follows the same migration approach used for
 - [x] Extraction tooling (`scripts/extract_wp_content.py`)
 - [x] Jekyll skeleton + CI/CD
 - [x] First extraction run + media assets
-- [ ] Layouts & design
+- [x] Layouts & design (author bio pages excluded — no real data to render)
 - [ ] Iterative refinement
 - [ ] Custom domain cutover
 - [ ] WordPress decommission
