@@ -9,7 +9,7 @@ categories:
 author: "Jarlskov"
 ---
 
-Vi tog udgangspunkt i "mjødopskrift fra Bjerre herred omkring 1865", som findes hos [Danmarks Biavlerforening](http://www.biavl.dk/viden-og-fakta/honning/mjod/529-mjod-opskrifter.html). Opskriften lyder:
+Vi tog udgangspunkt i "mjødopskrift fra Bjerre herred omkring 1865", som findes hos [Danmarks Biavlerforening](https://www.biavl.dk/medlemmer/videnbank/opskrifter/drikke/biavlerens-egne-mjoedopskrifter/). Opskriften lyder:
 12 pund honning koges med 16 potter vand. Det skummes meget omhyggeligt, og når det er skummet færdig, tages det af ilden og irøres, mens det er varmt,
 
 - 4 lod spansk humle
