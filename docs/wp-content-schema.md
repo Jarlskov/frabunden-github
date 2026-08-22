@@ -6,6 +6,19 @@ content-only DB dump (`wp_posts`, `wp_postmeta`, `wp_terms`,
 `wp_usermeta` were never dumped or queried), plus a read-only filesystem scan
 of the live host via SSH. No WordPress PHP was ever executed.
 
+**Narrow exception (added for author bylines, Phase 5):** the theme design
+shows a public "Af {author}" byline on every post — already visible on the
+live site to any visitor, unlike the PII the `wp_users` exclusion above
+guards against (emails, password hashes). A single read-only query
+(`SELECT ID, display_name FROM wp_users`) was run directly over SSH against
+the live DB (not dumped to a file) to get just those two columns; the result
+(3 rows: 1=Jarlskov, 2=Mortensen, 3=Netman) was loaded into a minimal local
+table, `wp_users_minimal(ID, display_name)`, in the disposable container —
+the real `wp_users` table itself was never copied anywhere. Two other WP
+user accounts exist (`root`, `felix.jensen52`) but are unused by any
+published post; `root` as a WP username is a notable red flag worth the
+site owner's attention, independent of this migration.
+
 ## Post types in scope
 
 | post_type    | publish | draft | notes |

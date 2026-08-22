@@ -52,10 +52,21 @@ def fetch_posts() -> list[dict]:
         "SELECT JSON_OBJECT("
         "'ID', ID, 'post_title', post_title, 'post_name', post_name, "
         "'post_date', post_date, 'post_status', post_status, "
-        "'post_content', post_content) "
+        "'post_content', post_content, 'post_author', post_author) "
         "FROM wp_posts WHERE post_type = 'post' ORDER BY ID;"
     )
     return [json.loads(line) for line in db_query(sql)]
+
+
+def fetch_authors() -> dict[int, str]:
+    """wp_users is otherwise off-limits (see docs/wp-content-schema.md) to
+    avoid PII (emails, password hashes) — this is a narrow, explicit
+    exception: only id+display_name, for public byline attribution that's
+    already shown on the live site. Loaded into a minimal local table
+    (wp_users_minimal, id+display_name only) rather than the real wp_users,
+    so even a full dump of the local container carries no PII."""
+    sql = "SELECT JSON_OBJECT('ID', ID, 'display_name', display_name) FROM wp_users_minimal;"
+    return {json.loads(line)["ID"]: json.loads(line)["display_name"] for line in db_query(sql)}
 
 
 def fetch_postmeta(post_ids: list[int]) -> dict[int, dict[str, list[str]]]:
@@ -200,6 +211,17 @@ def html_to_clean_markdown(raw_html: str, referenced_files: set[str]) -> str:
     # HTML comments; left in place these survive markdownify as literal
     # "<!-- wp:paragraph -->" text lines. Comments carry no content, so drop
     # all of them unconditionally rather than special-casing each block type.
+    # WordPress's "link to media file" default wraps an inserted image in
+    # <a href="...uploads/raw-file">, which is pure plumbing (a link to the
+    # bare image file, not a real destination) — and, in at least one old
+    # (2014) post, a leftover unclosed tag left it wrapping an entire
+    # unrelated paragraph of prose as well. Unwrap any such anchor
+    # regardless of what it contains, rather than trying to detect "wraps
+    # more than it should" case by case.
+    for a in soup.find_all("a", href=True):
+        if "/assets/uploads/" in a["href"]:
+            a.unwrap()
+
     for comment in soup.find_all(string=lambda t: isinstance(t, Comment)):
         comment.extract()
 
@@ -275,13 +297,22 @@ def build_instruction_groups(raw_value: str | None, attached_files: dict[int, st
             text_md = html_to_clean_markdown(step.get("text") or "", referenced_files)
             text_md = " ".join(text_md.split())
             image_id = step.get("image")
+            image_path = None
             if image_id:
                 filename = attached_files.get(int(image_id))
                 if filename:
                     referenced_files.add(filename)
-                    text_md += f"\n\n![]({{{{ '/assets/uploads/{filename}' | relative_url }}}})"
+                    image_path = f"/assets/uploads/{filename}"
             if text_md:
-                items.append(text_md)
+                # A plain {"text": ..., "image": ...} dict, not a markdown
+                # string with an embedded image tag — the recipe layout
+                # renders `image` as a real Liquid `relative_url` call. An
+                # embedded literal "{{ '...' | relative_url }}" string here
+                # would still be plain text to Jekyll (front matter isn't
+                # Liquid-processed), but running it through the `markdownify`
+                # filter later feeds its "|" straight into kramdown's GFM
+                # table parser, which misreads it as a table row.
+                items.append({"text": text_md, "image": image_path})
         if items:
             result.append({"name": (group.get("name") or "").strip(), "items": items})
     return result
@@ -367,7 +398,10 @@ def group_list_lines(key: str, groups: list[dict]) -> list[str]:
     """Emit a `key: [{name, items}, ...]` block. Always uses this shape
     (even a single ungrouped recipe still gets one group with name: "") so
     the recipe layout only ever needs one code path: loop groups, skip the
-    heading when name is empty, loop items."""
+    heading when name is empty, loop items. Each item is either a plain
+    string (ingredients) or a {"text", "image"} dict (instructions, where
+    "image" needs its own Liquid relative_url call in the layout rather
+    than being embedded as text — see build_instruction_groups)."""
     if not groups:
         return []
     lines = [f"{key}:"]
@@ -375,7 +409,12 @@ def group_list_lines(key: str, groups: list[dict]) -> list[str]:
         lines.append(f"  - name: {yaml_str(group['name'])}")
         lines.append("    items:")
         for item in group["items"]:
-            lines.append(f"      - {yaml_str(item)}")
+            if isinstance(item, dict):
+                lines.append(f"      - text: {yaml_str(item['text'])}")
+                if item.get("image"):
+                    lines.append(f"        image: {yaml_str(item['image'])}")
+            else:
+                lines.append(f"      - {yaml_str(item)}")
     return lines
 
 
@@ -387,6 +426,7 @@ def main():
     meta_by_post = fetch_postmeta(post_ids)
     attached_files = fetch_attached_files()
     categories_by_post = fetch_post_categories()
+    authors_by_id = fetch_authors()
     recipes_by_parent = fetch_recipes_by_parent(attached_files, referenced_files)
 
     def meta_first(post_id: int, key: str) -> str | None:
@@ -421,6 +461,7 @@ def main():
             ("permalink", f"/{slug}/"),
             ("thumbnail", thumbnail_field),
             ("categories", sorted(categories_by_post.get(post_id, []))),
+            ("author", authors_by_id.get(post["post_author"])),
         ]
         if recipe:
             fields += [
