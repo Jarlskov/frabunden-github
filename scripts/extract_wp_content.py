@@ -155,9 +155,6 @@ UPLOAD_IMG_RE = re.compile(
     r"https?://frabunden\.dk/wp-content/uploads/([^\"'\s)]+?)(-\d+x\d+)?(\.[a-zA-Z0-9]+)(?=[\"'\s)])"
 )
 
-RECIPE_BLOCK_MARKER = "RECIPEBLOCKMARKER"
-
-
 def unwrap_caption(m: re.Match) -> str:
     """WP's [caption] shortcode wraps '<img/> trailing caption text' with no
     block-level separator, so naively unwrapping it runs the image markdown
@@ -189,7 +186,7 @@ def canonicalize_upload_urls(html: str, referenced_files: set[str]) -> str:
     return UPLOAD_IMG_RE.sub(repl, html)
 
 
-def html_to_clean_markdown(raw_html: str, referenced_files: set[str], has_recipe: bool = False) -> str:
+def html_to_clean_markdown(raw_html: str, referenced_files: set[str]) -> str:
     if not raw_html:
         return ""
 
@@ -209,17 +206,12 @@ def html_to_clean_markdown(raw_html: str, referenced_files: set[str], has_recipe
     # WP Recipe Maker's dynamic block saves a fully-rendered static fallback
     # card (its own heading/ingredient-list/instruction-list markup, styled
     # with wprm-* classes) inline in post_content for contexts where the
-    # plugin's JS/shortcode can't render it. We regenerate the recipe content
-    # ourselves straight from postmeta (see render_recipe_section), so this
-    # fallback would otherwise duplicate it — swap it for a marker that gets
-    # replaced with the clean version after HTML->markdown conversion, which
-    # also preserves its original position in the post instead of always
-    # appending at the end.
+    # plugin's JS/shortcode can't render it. The recipe layout renders
+    # ingredients/instructions itself from structured front matter (see
+    # build_ingredient_groups/build_instruction_groups), so this fallback
+    # would otherwise duplicate it — drop it entirely.
     for div in soup.find_all("div", class_="wprm-fallback-recipe"):
-        if has_recipe:
-            div.replace_with(RECIPE_BLOCK_MARKER)
-        else:
-            div.decompose()
+        div.decompose()
 
     for tag in soup.find_all(["script", "style"]):
         tag.decompose()
@@ -236,16 +228,22 @@ def html_to_clean_markdown(raw_html: str, referenced_files: set[str], has_recipe
     return markdown
 
 
-# --- WP Recipe Maker: render structured recipe data as plain markdown ---
+# --- WP Recipe Maker: structured recipe data as front-matter groups ---
+#
+# The recipe layout renders ingredients as a checklist (each item needs its
+# own checkbox element) and instructions as individually-numbered steps with
+# a distinct numeral style — both require iterating discrete items, which
+# isn't possible if they're baked into one markdown blob. So these come back
+# as `[{"name": str, "items": [str, ...]}, ...]` — a group's "name" is only
+# ever non-empty for recipes with named sub-sections (e.g. "Grundfars" /
+# "Rosmarinpølsen" for a sausage recipe with multiple variants); the layout
+# just skips rendering the heading when it's empty.
 
-def render_ingredients(raw_value: str | None) -> str:
+def build_ingredient_groups(raw_value: str | None) -> list[dict]:
     groups = php_unserialize(raw_value) or {}
-    lines: list[str] = []
+    result = []
     for group in groups.values():
-        name = (group.get("name") or "").strip()
-        if name:
-            lines.append(f"**{name}**")
-            lines.append("")
+        items = []
         for item in (group.get("ingredients") or {}).values():
             amount = (item.get("amount") or "").strip()
             unit = (item.get("unit") or "").strip()
@@ -254,46 +252,37 @@ def render_ingredients(raw_value: str | None) -> str:
             line = " ".join(p for p in (amount, unit, name_part) if p)
             if notes:
                 line += f" ({notes})"
-            lines.append(f"- {line}")
-        lines.append("")
-    return "\n".join(lines).strip()
+            if line:
+                items.append(line)
+        if items:
+            result.append({"name": (group.get("name") or "").strip(), "items": items})
+    return result
 
 
-def render_instructions(raw_value: str | None, attached_files: dict[int, str], referenced_files: set[str]) -> str:
+def build_instruction_groups(raw_value: str | None, attached_files: dict[int, str], referenced_files: set[str]) -> list[dict]:
     groups = php_unserialize(raw_value) or {}
-    lines: list[str] = []
+    result = []
     for group in groups.values():
-        name = (group.get("name") or "").strip()
-        if name:
-            lines.append(f"**{name}**")
-            lines.append("")
-        for i, step in enumerate((group.get("instructions") or {}).values(), start=1):
+        items = []
+        for step in (group.get("instructions") or {}).values():
             text_md = html_to_clean_markdown(step.get("text") or "", referenced_files)
             text_md = " ".join(text_md.split())
             image_id = step.get("image")
-            image_md = ""
             if image_id:
                 filename = attached_files.get(int(image_id))
                 if filename:
                     referenced_files.add(filename)
-                    image_md = f"\n\n   ![]({{{{ '/assets/uploads/{filename}' | relative_url }}}})"
-            lines.append(f"{i}. {text_md}{image_md}")
-        lines.append("")
-    return "\n".join(lines).strip()
+                    text_md += f"\n\n![]({{{{ '/assets/uploads/{filename}' | relative_url }}}})"
+            if text_md:
+                items.append(text_md)
+        if items:
+            result.append({"name": (group.get("name") or "").strip(), "items": items})
+    return result
 
 
 def parse_equipment(raw_value: str | None) -> list[str]:
     items = php_unserialize(raw_value) or {}
     return [item["name"] for item in items.values() if item.get("name")]
-
-
-def render_recipe_section(recipe: dict) -> str:
-    parts = []
-    if recipe["ingredients_md"]:
-        parts.append("## Ingredienser\n\n" + recipe["ingredients_md"])
-    if recipe["instructions_md"]:
-        parts.append("## Fremgangsmåde\n\n" + recipe["instructions_md"])
-    return "\n\n".join(parts)
 
 
 def to_int_or_none(value: str | None):
@@ -335,14 +324,14 @@ def fetch_recipes_by_parent(attached_files: dict[int, str], referenced_files: se
             "servings": to_int_or_none(first("wprm_servings")),
             "servings_unit": first("wprm_servings_unit"),
             "equipment": parse_equipment(first("wprm_equipment")),
-            "ingredients_md": render_ingredients(first("wprm_ingredients")),
-            "instructions_md": render_instructions(first("wprm_instructions"), attached_files, referenced_files),
+            "ingredient_groups": build_ingredient_groups(first("wprm_ingredients")),
+            "instruction_groups": build_instruction_groups(first("wprm_instructions"), attached_files, referenced_files),
         }
     return by_parent
 
 
 def yaml_str(value: str) -> str:
-    escaped = value.replace("\\", "\\\\").replace('"', '\\"')
+    escaped = value.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
     return f'"{escaped}"'
 
 
@@ -364,6 +353,22 @@ def front_matter_lines(fields: list[tuple[str, object]]) -> list[str]:
         else:
             raise TypeError(f"Unsupported front matter value type for {key!r}: {type(value)}")
     lines.append("---")
+    return lines
+
+
+def group_list_lines(key: str, groups: list[dict]) -> list[str]:
+    """Emit a `key: [{name, items}, ...]` block. Always uses this shape
+    (even a single ungrouped recipe still gets one group with name: "") so
+    the recipe layout only ever needs one code path: loop groups, skip the
+    heading when name is empty, loop items."""
+    if not groups:
+        return []
+    lines = [f"{key}:"]
+    for group in groups:
+        lines.append(f"  - name: {yaml_str(group['name'])}")
+        lines.append("    items:")
+        for item in group["items"]:
+            lines.append(f"      - {yaml_str(item)}")
     return lines
 
 
@@ -401,9 +406,7 @@ def main():
             referenced_files.add(thumb_file)
         thumbnail_field = f"/assets/uploads/{thumb_file}" if thumb_file else None
 
-        body = html_to_clean_markdown(post["post_content"], referenced_files, has_recipe=bool(recipe))
-        if recipe:
-            body = body.replace(RECIPE_BLOCK_MARKER, render_recipe_section(recipe))
+        body = html_to_clean_markdown(post["post_content"], referenced_files)
 
         fields = [
             ("title", title),
@@ -422,8 +425,16 @@ def main():
                 ("recipe_equipment", recipe["equipment"]),
             ]
 
+        lines = front_matter_lines(fields)
+        if recipe:
+            # Insert before the closing "---" rather than appending fresh
+            # front_matter_lines output, so these stay part of the same block.
+            extra = group_list_lines("recipe_ingredients", recipe["ingredient_groups"])
+            extra += group_list_lines("recipe_instructions", recipe["instruction_groups"])
+            lines = lines[:-1] + extra + lines[-1:]
+
         out_path = out_dir / f"{date}-{slug}.md"
-        content = "\n".join(front_matter_lines(fields)) + "\n\n" + body + "\n"
+        content = "\n".join(lines) + "\n\n" + body + "\n"
         out_path.write_text(content, encoding="utf-8")
         written += 1
 
